@@ -4,9 +4,8 @@
 {% block content %}
 
 {% if not deck %}
-
 	<a href='/new_game'>
-		<button class='btn'>
+		<button class='btn btn-primary'>
 			Новая игра
 		</button>
 {% endif %}
@@ -18,12 +17,17 @@
 Осталось карт: {{remaining}}
 <br>
 <a href='/get_card/{{deck}}'>
-	<button class='btn'>
+	<button class='btn btn-primary'>
 		Вытянуть карту
 	</button>
 </a>
 {% endif %}
 <br>
-<img src={{card_image}}>
 
+{% for card in hand %}
+	<img src={{card['image']}}>
+{% endfor %}
+<br>
+{{sumhand}}
+{{hand}}
 {% endblock %}
