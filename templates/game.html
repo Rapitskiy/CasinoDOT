@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<a href='/get_card/{{deck}}'>
+	<button class='btn'>
+		Вытянуть карту
+	</button>
+</a>
+<br>
+<img src={{card_image}}>
+{% endblock %}

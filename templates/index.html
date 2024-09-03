@@ -1,11 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Page Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+{% block content %}
+
+{% if not deck %}
+
+	<a href='/new_game'>
+		<button class='btn'>
+			Новая игра
+		</button>
+{% endif %}
 
 
+{% if deck %}
+Колода: {{deck}}
+<br>
+Осталось карт: {{remaining}}
+<br>
+<a href='/get_card/{{deck}}'>
+	<button class='btn'>
+		Вытянуть карту
+	</button>
+</a>
+{% endif %}
+<br>
+<img src={{card_image}}>
 
-</body>
-</html>
+{% endblock %}
