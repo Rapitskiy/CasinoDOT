@@ -10,7 +10,6 @@
 		</button>
 {% endif %}
 
-
 {% if deck %}
 Колода: {{deck}}
 <br>
@@ -20,14 +19,36 @@
 	<button class='btn btn-primary'>
 		Вытянуть карту
 	</button>
-</a>
+<br>
 {% endif %}
 <br>
 
+<br>
+Игрок:
+<br>
 {% for card in hand %}
 	<img src={{card['image']}}>
 {% endfor %}
 <br>
-{{sumhand}}
-{{hand}}
+
+{% if deck %}
+Всего очков игрока: {{sumhand}}
+<br>
+<a href='/dealer_card/{{deck}}'>
+	<button class='btn btn-danger'>
+		Завершить игру
+	</button>
+</a>
+{% endif %}
+<br>
+
+<br>
+Дилер:
+<br>
+{% for card in dealer %}
+	<img src={{card['image']}}>
+{% endfor %}
+<br>
+Всего очков дилера: {{sumdealer}}
+<br>
 {% endblock %}
