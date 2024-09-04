@@ -6,10 +6,12 @@ import json
 global deck
 global remaining
 global dealer
+global result
 sumhand = 0
 sumdealer = 0
 hand = []
 dealer = []
+result = []
 
 @app.route('/')
 def index():
@@ -19,6 +21,7 @@ def index():
 def get_deck():
 	hand.clear()
 	dealer.clear()
+	result.clear()
 	deck =json.loads(requests.post('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1').text)['deck_id']
 	remaining =json.loads(requests.post('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1').text)['remaining']
 	return render_template('index.html',deck=deck, remaining=remaining)
@@ -90,7 +93,14 @@ def get_card(deck_id):
 		sumhand = sum([int(i) for i in sumhand])
 		sumdealer = [i['value'] for i in dealer]
 		sumdealer = sum([int(i) for i in sumdealer])
-	return render_template('index.html',card_image=card_image,deck=deck_id, remaining=remaining, hand=hand, sumhand=sumhand, dealer=dealer, sumdealer=sumdealer)
+	if sumhand > 21:
+		result.append("You loose")
+	else:
+		result.append("You still not loose")
+	return render_template('index.html',card_image=card_image,deck=deck_id, remaining=remaining, hand=hand, sumhand=sumhand, dealer=dealer, sumdealer=sumdealer, result=result)
+
+#@app.route('/get_card/<deck_id>')
+#def game_result(deck_id):
 	
 if __name__ == '__main__':
  app.run(debug=True)

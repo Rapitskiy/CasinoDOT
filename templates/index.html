@@ -20,9 +20,13 @@
 		Вытянуть карту
 	</button>
 <br>
-{% endif %}
+<a href='/dealer_card/{{deck}}'>
+	<button class='btn btn-danger'>
+		Завершить игру
+	</button>
+</a>
 <br>
-
+{{result}}
 <br>
 Игрок:
 <br>
@@ -30,18 +34,7 @@
 	<img src={{card['image']}}>
 {% endfor %}
 <br>
-
-{% if deck %}
 Всего очков игрока: {{sumhand}}
-<br>
-<a href='/dealer_card/{{deck}}'>
-	<button class='btn btn-danger'>
-		Завершить игру
-	</button>
-</a>
-{% endif %}
-<br>
-
 <br>
 Дилер:
 <br>
@@ -51,4 +44,6 @@
 <br>
 Всего очков дилера: {{sumdealer}}
 <br>
+
+{% endif %}
 {% endblock %}
