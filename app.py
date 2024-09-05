@@ -29,55 +29,33 @@ def get_deck():
 @app.route('/get_card/<deck_id>')
 def get_card(deck_id):
 	if hand == []:
-		card=json.loads(requests.get('https://deckofcardsapi.com/api/deck/'+deck_id+'/draw/?count=1').text)['cards'][0]
-		card_image=card['images']['png']
-		remaining =json.loads(requests.post('https://deckofcardsapi.com/api/deck/'+deck_id+'/').text)['remaining']
-		if card['value'] == 'KING' or card['value'] == 'JACK' or card['value'] == 'QUEEN':
-			card['value']=10
-		elif card['value'] == 'ACE':
-			card['value']=11
-		else:
-			card['value']=card['value']
-		hand.append(card)
-		sumhand = [i['value'] for i in hand]
-		sumhand = sum([int(i) for i in sumhand])
-		card=json.loads(requests.get('https://deckofcardsapi.com/api/deck/'+deck_id+'/draw/?count=1').text)['cards'][0]
-		card_image=card['images']['png']
-		remaining =json.loads(requests.post('https://deckofcardsapi.com/api/deck/'+deck_id+'/').text)['remaining']
-		if card['value'] == 'KING' or card['value'] == 'JACK' or card['value'] == 'QUEEN':
-			card['value']=10
-		elif card['value'] == 'ACE':
-			card['value']=11
-		else:
-			card['value']=card['value']
-		dealer.append(card)
-		sumdealer = [i['value'] for i in dealer]
-		sumdealer = sum([int(i) for i in sumdealer])
-		#2раз
-		card=json.loads(requests.get('https://deckofcardsapi.com/api/deck/'+deck_id+'/draw/?count=1').text)['cards'][0]
-		card_image=card['images']['png']
-		remaining =json.loads(requests.post('https://deckofcardsapi.com/api/deck/'+deck_id+'/').text)['remaining']
-		if card['value'] == 'KING' or card['value'] == 'JACK' or card['value'] == 'QUEEN':
-			card['value']=10
-		elif card['value'] == 'ACE':
-			card['value']=11
-		else:
-			card['value']=card['value']
-		hand.append(card)
-		sumhand = [i['value'] for i in hand]
-		sumhand = sum([int(i) for i in sumhand])
-		card=json.loads(requests.get('https://deckofcardsapi.com/api/deck/'+deck_id+'/draw/?count=1').text)['cards'][0]
-		card_image=card['images']['png']
-		remaining =json.loads(requests.post('https://deckofcardsapi.com/api/deck/'+deck_id+'/').text)['remaining']
-		if card['value'] == 'KING' or card['value'] == 'JACK' or card['value'] == 'QUEEN':
-			card['value']=10
-		elif card['value'] == 'ACE':
-			card['value']=11
-		else:
-			card['value']=card['value']
-		dealer.append(card)
-		sumdealer = [i['value'] for i in dealer]
-		sumdealer = sum([int(i) for i in sumdealer])
+		for j in range(2): #вместо копии кода сделала цикл
+			card=json.loads(requests.get('https://deckofcardsapi.com/api/deck/'+deck_id+'/draw/?count=1').text)['cards'][0]
+			card_image=card['images']['png']
+			remaining =json.loads(requests.post('https://deckofcardsapi.com/api/deck/'+deck_id+'/').text)['remaining']
+			if card['value'] == 'KING' or card['value'] == 'JACK' or card['value'] == 'QUEEN':
+				card['value']=10
+			elif card['value'] == 'ACE':
+				card['value']=11
+			else:
+				card['value']=card['value']
+			hand.insert(0, card) #поменяла модуль для добавления карты слева
+			sumhand = [i['value'] for i in hand]
+			sumhand = sum([int(i) for i in sumhand])
+		
+			card=json.loads(requests.get('https://deckofcardsapi.com/api/deck/'+deck_id+'/draw/?count=1').text)['cards'][0]
+			card_image=card['images']['png']
+			remaining =json.loads(requests.post('https://deckofcardsapi.com/api/deck/'+deck_id+'/').text)['remaining']
+			if card['value'] == 'KING' or card['value'] == 'JACK' or card['value'] == 'QUEEN':
+				card['value']=10
+			elif card['value'] == 'ACE':
+				card['value']=11
+			else:
+				card['value']=card['value']
+			dealer.insert(0, card)
+			sumdealer = [i['value'] for i in dealer]
+			sumdealer = sum([int(i) for i in sumdealer])
+		
 	else:
 		card=json.loads(requests.get('https://deckofcardsapi.com/api/deck/'+deck_id+'/draw/?count=1').text)['cards'][0]
 		card_image=card['images']['png']
@@ -88,19 +66,25 @@ def get_card(deck_id):
 			card['value']=11
 		else:
 			card['value']=card['value']
-		hand.append(card)
+		hand.insert(0, card)
 		sumhand = [i['value'] for i in hand]
 		sumhand = sum([int(i) for i in sumhand])
 		sumdealer = [i['value'] for i in dealer]
 		sumdealer = sum([int(i) for i in sumdealer])
-	if sumhand > 21:
-		result.append("You loose")
+	if sumhand > 21 and sumdealer <= 21: #прописала все условия
+		result.append('You loose')
+	elif sumhand <= 21 and sumhand > sumdealer:
+		result.append('You win')
+	elif sumhand <= 21 and sumdealer > 21:
+		result.append('You win')
 	else:
-		result.append("You still not loose")
+		result.append('You still not loose')
 	return render_template('index.html',card_image=card_image,deck=deck_id, remaining=remaining, hand=hand, sumhand=sumhand, dealer=dealer, sumdealer=sumdealer, result=result)
 
-#@app.route('/get_card/<deck_id>')
-#def game_result(deck_id):
+#@app.route('/game_result')
+#def game_result():
+	#result.append('You loose')
+	#return render_template('index.html',result=result)
 	
 if __name__ == '__main__':
  app.run(debug=True)
