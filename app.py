@@ -57,6 +57,7 @@ def get_card(deck_id):
 			sumdealer = sum([int(i) for i in sumdealer])
 		
 	else:
+		result.clear()
 		card=json.loads(requests.get('https://deckofcardsapi.com/api/deck/'+deck_id+'/draw/?count=1').text)['cards'][0]
 		card_image=card['images']['png']
 		remaining =json.loads(requests.post('https://deckofcardsapi.com/api/deck/'+deck_id+'/').text)['remaining']

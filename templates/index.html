@@ -2,7 +2,7 @@
 
 {% block title %}Home{% endblock %}
 {% block content %}
-
+<body class=data-bs-theme="dark">
 {% if not deck %}
 	<a href='/new_game'>
 		<button class='btn btn-primary'>
@@ -10,7 +10,10 @@
 		</button>
 {% endif %}
 
-{% if deck %}
+<div class="container text-center">
+	<div class="row">
+		<div class="col">
+	{% if deck %}
 Колода: {{deck}}
 <br>
 Осталось карт: {{remaining}}
@@ -27,23 +30,29 @@
 </a>
 <br>
 Результат игры: {{result}}
-<br>
+	</div>
+	<div class="row">
+		<div class="col">
 Игрок:
 <br>
 {% for card in hand %}
-	<img src={{card['image']}}>
+	<img src={{card['image']}} class="w-25 p-3">
 {% endfor %}
 <br>
 Всего очков игрока: {{sumhand}}
 <br>
+	</div>
+		<div class="col">
 Дилер:
 <br>
 {% for card in dealer %}
-	<img src={{card['image']}}>
+	<img src={{card['image']}} class="w-25 p-3">
 {% endfor %}
 <br>
 Всего очков дилера: {{sumdealer}}
 <br>
-
+	</div>
+</div>
 {% endif %}
+</body>
 {% endblock %}
