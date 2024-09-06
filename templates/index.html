@@ -2,34 +2,41 @@
 
 {% block title %}Home{% endblock %}
 {% block content %}
-<body class=data-bs-theme="dark">
-{% if not deck %}
-	<a href='/new_game'>
-		<button class='btn btn-primary'>
-			Новая игра
-		</button>
-{% endif %}
 
 <div class="container text-center">
 	<div class="row">
 		<div class="col">
-	{% if deck %}
-Колода: {{deck}}
+<br>
+<br>
+{% if not deck_id %}
+	<a href='/new_game'>
+		<button class='btn btn-primary btn-lg'>
+			Новая игра
+		</button>
+{% endif %}
+		</div>
+	</div>
+</div>
+
+<div class="container text-center">
+	<div class="row">
+		<div class="col">
+
+{% if deck_id %}
+Колода: {{deck_id}}
 <br>
 Осталось карт: {{remaining}}
 <br>
-<a href='/get_card/{{deck}}'>
-	<button class='btn btn-primary'>
+<a href='/get_card'>
+	<button class='btn btn-primary btn-lg'>
 		Вытянуть карту
 	</button>
 <br>
-<a href='/game_result/{{result}}'>
-	<button class='btn btn-danger'>
+<a href='/game_result'>
+	<button class='btn btn-danger btn-lg'>
 		Результат игры
 	</button>
 </a>
-<br>
-Результат игры: {{result}}
 	</div>
 	<div class="row">
 		<div class="col">
@@ -54,5 +61,5 @@
 	</div>
 </div>
 {% endif %}
-</body>
+
 {% endblock %}
